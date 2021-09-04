@@ -1,0 +1,13 @@
+
+.login-div{
+    position: absolute;
+    width: 400px;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%,-50%);
+}
+body{
+    height: 100%;
+    width: 100%;
+    background-image: url('../../assets/bgimage.jpg');
+}
