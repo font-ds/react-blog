@@ -11,6 +11,7 @@ import Header from '../components/Header'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
 
+
 const Home = (list) => {
 
   const [mylist, setMylist] = React.useState(list.data)
@@ -37,6 +38,25 @@ const Home = (list) => {
     <>
       <Head>
         <title>关一方的博客</title>
+        {/* <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script> */}
+        {/* <script >
+          {
+            `
+            L2Dwidget.init({
+              "model": {
+                  jsonPath:
+                      "https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json",
+                  "scale": 1
+              }, "display": {
+                  "position": "left", "width": 110, "height": 200,
+                  "hOffset": 10, "vOffset": -10
+              }, "mobile": { "show": true, "scale": 0.5 },
+              "react": { "opacityDefault": 1, "opacityOnHover": 0.1 }
+          });
+            `
+          }
+        </script> */}
+
       </Head>
       <Header />
       <Row className="comm-main" type="flex" justify="center">
@@ -52,7 +72,7 @@ const Home = (list) => {
               dataSource={mylist}
               renderItem={item => (
                 <List.Item key={item.title}>
-                  <div className="list-title"><Link href={{ pathname: '/detailed', query: { id: item.id } }}>{item.title}</Link></div>
+                  <div className="list-title"><Link href={{ pathname: '/detailed', query: { id: item.id } }}><a>{item.title}</a></Link></div>
                   <div className="list-icon">
                     <span> {item.addTime}</span>
                     <span> {item.typeName}</span>
@@ -131,6 +151,7 @@ const Home = (list) => {
       </style>
     </>
   )
+
 }
 
 Home.getInitialProps = async () => {

@@ -50,7 +50,7 @@ const MyList = (list) => {
                     <div>
                         <div className="bread-div">
                             <Breadcrumb>
-                                <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
+                                <Breadcrumb.Item><Link href="/">首页</Link></Breadcrumb.Item>
                                 <Breadcrumb.Item>{list.id === '1' ? '文章' : list.id === '2' ? '题库' : '生活'}</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>

@@ -8,7 +8,7 @@ function Main() {
             <Switch>
                 <Route path='/login/' exact component={Login} />
                 <Route path='/index/' exact component={AdminIndex} />
-                <Route path='/index/add' exact component={AdminIndex} />
+                <Route path='/index/add' component={AdminIndex} />
                 <Route path='/index/list' exact component={AdminIndex} />
                 <Route path="/index/add/:id" exact component={AdminIndex} />
 

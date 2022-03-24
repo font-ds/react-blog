@@ -27,16 +27,14 @@ function AdminIndex(props) {
             <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
                 <div className="logo" >Blog后台管理系统</div>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                    <Menu.Item key="1">
-                        <span>工作台</span>
+                    
+                    <Menu.Item key="articleList" onClick={handleClickArticle}>
+                        <span>文章列表</span>
                     </Menu.Item>
                     <Menu.Item key="addArticle" onClick={handleClickArticle}>
                         <span>添加文章</span>
                     </Menu.Item>
 
-                    <Menu.Item key="articleList" onClick={handleClickArticle}>
-                        <span>文章列表</span>
-                    </Menu.Item>
                 </Menu>
             </Sider>
             <Layout>

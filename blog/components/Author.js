@@ -1,7 +1,28 @@
-import { Avatar, Divider } from 'antd'
+import { Avatar, Divider, Menu, Dropdown } from 'antd'
 import { GithubOutlined, QqOutlined, WechatOutlined } from '@ant-design/icons'
 
 const Author = () => {
+    const GIT = (
+        <Menu>
+            <Menu.Item>
+                <span>Git:https://github.com/Amo-xm</span>
+            </Menu.Item>
+        </Menu>
+    )
+    const QQmenu = (
+        <Menu>
+            <Menu.Item>
+                <span>QQ:   335452774</span>
+            </Menu.Item>
+        </Menu>
+    );
+    const Wechat = (
+        <Menu>
+            <Menu.Item>
+                <span>微信:   LMF-0424</span>
+            </Menu.Item>
+        </Menu>
+    )
 
     return (
         <>
@@ -11,9 +32,19 @@ const Author = () => {
                     程序员小白，正在学习前端的道路上摸爬滚打，让我们一起努力！
                     <Divider>社交账号</Divider>
                     <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'center' }}>
-                        <div><a style={{ color: '#999999' }} href="https://github.com/Amo-xm"><GithubOutlined style={{ fontSize: '23px', marginRight: '10px' }} /></a></div>
-                        <div><QqOutlined style={{ fontSize: '23px' }} /></div>
-                        <div><WechatOutlined style={{ fontSize: '23px', marginLeft: '10px' }} /></div>
+                        <Dropdown overlay={GIT} placement="topCenter" arrow>
+                            <div><a style={{ color: '#999999' }} href="https://github.com/Amo-xm"><GithubOutlined style={{ fontSize: '23px', marginRight: '10px' }} /></a></div>
+                        </Dropdown>
+                        <div>
+                            <Dropdown overlay={QQmenu} placement="topCenter" arrow>
+                                <QqOutlined style={{ fontSize: '23px' }} />
+                            </Dropdown>
+                        </div>
+                        <div>
+                            <Dropdown overlay={Wechat} placement="topCenter" arrow>
+                                <WechatOutlined style={{ fontSize: '23px', marginLeft: '10px' }} />
+                            </Dropdown>
+                        </div>
                     </div>
                 </div>
             </div>

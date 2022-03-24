@@ -7,6 +7,7 @@ import 'markdown-navbar/dist/navbar.css';
 import marked from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
+import Link from 'next/link'
 
 import httpUtil from '../config/httpUtil'
 
@@ -32,6 +33,8 @@ const Detailed = (props) => {
     })
 
     let markdown = props.article_content
+    let title = props.title
+    let time = props.addTime
 
     let html = marked(props.article_content)
 
@@ -60,21 +63,18 @@ const Detailed = (props) => {
                     <div>
                         <div className="bread-div">
                             <Breadcrumb>
-                                <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
-                                <Breadcrumb.Item>视频列表</Breadcrumb.Item>
-                                <Breadcrumb.Item>xxxx</Breadcrumb.Item>
+                                <Breadcrumb.Item><Link href="/">首页</Link></Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
 
                         <div>
                             <div className="detailed-title">
-                                React实战视频教程-技术胖Blog开发(更新08集)
+                                {title}
                             </div>
 
                             <div className="list-icon center">
-                                <span> 2019-06-28</span>
-                                <span>视频教程</span>
-                                <span>5498人</span>
+                                <span> {time}</span>
+
                             </div>
 
                             <div className='detailed-content'
@@ -192,6 +192,7 @@ const Detailed = (props) => {
 Detailed.getInitialProps = async (context) => {
     const promise = new Promise(resolve => {
         axios(httpUtil.getArticleById + context.query.id).then(res => {
+            console.log(res)
             resolve(res.data.data[0])
         })
     })

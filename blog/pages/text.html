@@ -1,0 +1,661 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>stp理论模型</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="835c67c0-cb09-4706-bd24-fb19e0540505" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📑</span></div><h1 class="page-title"><mark class="highlight-purple"><strong>stp</strong></mark>理论模型</h1></header><div class="page-body"><p id="b5df3d30-624b-477b-ac64-1273479cdc54" class="">STP理论简言之就是根据需求对市场进行划分，选定目标市场，并根据自身的产品/服务在目标市场中进行定位。<strong>根本要义在于选择确定目标客户</strong>。</p><p id="cade374d-0c7a-4a15-83cc-f9e7ec071ca0" class="">STP：segmentation——targeting——positioning</p><figure id="b92ecfd5-2dca-43b8-b5b5-52f3f7869bfb" class="image"><a href="https://pic1.zhimg.com/80/v2-265eb857367f89a62515fbc49018284c_1440w.jpg"><img style="width:528px" src="https://pic1.zhimg.com/80/v2-265eb857367f89a62515fbc49018284c_1440w.jpg"/></a></figure><p id="8cf6bd8e-19c7-44d8-9daa-1208fc2495e8" class=""><strong>前两者讲需求，后者讲供给</strong>。</p><p id="95542af8-7ff1-45e9-b424-9df6d23237a5" class="">
+</p><p id="299b8dd2-0327-433f-b940-266595d292f6" class=""><strong>一、segmentation（市场划分）</strong><div class="indented"><p id="0eea9319-0fd0-4078-aff6-b984458475f4" class=""><strong>segmentation是对业务进行正交分解，分到足够小的颗粒度。</strong></p><p id="8cd517fb-e096-4900-9f1f-4fa950559da6" class="">整个市场为一个立方体，通过三维直角坐标系的三条边将其进行划分，划分出来的一个个小立方体为需求空间。</p><p id="ae64aec1-f3d1-479a-bf41-ad7fc028a6bc" class="">1、用真正影响结果的要素建立一个合适坐标系的情况下，对你的业务做分解，分解到一个足够小的颗粒度（客户收入、地域、渠道等等）</p><p id="8ab4b4aa-51a6-4474-a2fd-15176b7501ff" class="block-color-red"><strong>「这样划分的理论依据：由于地域、收入和教育等的不同，消费意向也会有所不同。」 </strong></p><p id="fe1c2c35-f07d-4e42-b0cd-cbed6b5b1b7c" class="">2、如果你分得好的话，你分出来的空间，就叫需求空间： 你分出的每一个小块里的客户，他们的需求是完全一致的，销售的渠道是完全一致的，他们的品味完全一致，他们的支付能力完全一致，对应的，他对你功能的要求也是完全一致的，这就叫需求空间</p></div></p><h3 id="30a6a674-8ec2-4181-9e07-14ece9226cd5" class=""><strong>二、targeting（目标市场选取）</strong></h3><p id="9dd433b0-16bc-4875-b5ee-764eaa9cc218" class="">在目标选择上，很重要的是找到<strong>一个有竞争力的足够大的连续需求空间</strong>。</p><p id="4e7d28d3-5928-4359-95fd-8e3786ad575f" class="">选取需求空间，空间里的群体即为目标客户。选取空间的原则：<div class="indented"><p id="06a447cd-1363-4dea-a795-191ace276f51" class=""><strong>1、选取连续的需求空间，投入产出比高；</strong><div class="indented"><p id="0870ceb3-e4d0-4689-b6f6-06acb7572ec8" class="">比如由于你选择不连续的方块而导致功能层面不连续，导致会做好多个功能，从而需要更多的工程师资源，当市场体量不够大的时候，你的投入产出比就会比较低</p></div></p><p id="b32f6609-053a-49a3-bd2d-35f08c069d50" class=""><strong>2、不能太大，缺乏穿透力。不能太小，缺乏利润空间；</strong><div class="indented"><p id="da02855c-a08a-4047-bdae-09eeb92aa588" class="">比如说男装的品牌，皮尔卡丹，七匹狼，这些品牌以商务装居多，如果同时也设计牛仔裤的时候，消费者是否相信他在牛仔裤的设计上足够专业？也许在很长一段时间里，消费者认为他是专业的，直到出现一个专门的牛仔裤品牌，比如Levis。用户认为一个专门做牛仔裤的公司，它的质量是有保障的，实际上也的确如此。如果一个公司专门做一个产品，且这个产品的利润等各方面能足够支撑公司运营的话，那么这个公司一定比做多个产品的公司更专业。</p></div></p><p id="d80f938f-0f6c-4a04-adb0-e5f8dd1adfe7" class=""><strong>3、考虑现有市场上的竞争关系</strong><div class="indented"><p id="1ead754b-46f7-40ad-8e2f-9e0608ad7aba" class="">有的市场虽然很大，但是里面可能已经有很专业的竞争对手，把市场的渗透率已经打得足够高了，这个时候你进来可能是不合适的。（比如目前的社区团购）但是还有另外一种情况，可能市场很小，但是里面一个对手都没有，那你进来可能是合适的，你可以把这个市场做大（比如，播客）</p></div></p></div></p><h3 id="bff2f8c6-989a-404e-a506-068f719e4fd3" class=""><strong>三、positioning（定位）</strong></h3><p id="8eeaae18-9b7f-4c26-b45d-46ec5c8c0a0a" class="">此间大师：特劳特</p><p id="895edadd-51d1-4b72-99ed-6f565757a1d4" class="">特劳特认为，随着外部环境的变化，消费者的权力越来越大，企业不能再仅从盈利角度来经营。<strong>只有充分开发和利用好顾客的“心智资源”</strong>，才能在竞争中居于主动地位，获得长远的竞争优势</p><p id="ef1b2a31-f1b8-431a-9fae-7daf8ed50ced" class="">有效定位的标准：用户知道你是解决什么问题的——你告诉我<strong>你的需求</strong>，我说<strong>我是谁</strong>之后，你立马知道<strong>我是解决你这个需求</strong>的</p><p id="5476248a-ae45-4dc2-bddd-1d5b122dc037" class="">比如说，你想买一只名牌手表，最经典的那句广告词是“没有人真的拥有百达翡丽，你只是替后代保管而已”，当我说完这句话的时候，他应该就明白，我是为他准备的。我告诉你，我百达翡丽是什么，当你是那个客户群的时候，你就应该明白我是为你准备的。</p><p id="bde616f4-40e7-45aa-9fb7-7f38d27eb549" class="">
+</p><h3 id="91b61999-568f-451d-ae1a-fb3c2f530e9c" class="">四、<strong>应用STP的方法</strong></h3><p id="0d5f5602-292b-4a6e-b9ef-b2ab4530d167" class="">多放在具体场景里思考。<div class="indented"><p id="89d5ecfb-2264-40ac-9a86-4c6ca9a60737" class="">比如，假如要进行书籍买卖的创业。首先，那我们可以把学校的书籍市场细分，根据书籍新旧程度，学校书籍买卖市场可以划分为新书市场和二手书市场。其次，我们来选择目标市场，新书市场的目标太小，缺乏利润空间，二手书市场的竞争压力太大，学校各个平台都在进行二手书交易，甚至有免费送的情况。所以，我决定不做书籍方面的创业。HHH……我是个冷人</p></div></p><p id="d28dff3a-67ab-41ec-a0e9-39ebe037258e" class="">日本资深堂将这个理论做的很好。<div class="indented"><p id="b5f46029-d0c5-45c7-b287-614745e73d90" class="">首先，细分市场：为了满足不同市场需求，该公司设立独立子公司独创品牌，每一个品牌根据目标客户的特点去制定独立的价格和促销策略。这种个性化的方式，使得资生堂始终高居日本化妆品公司榜首。</p><p id="86d05e3a-66fa-421d-ac54-3aa294334d4f" class="">其次，选取目标市场：起初资生堂采用大众分销策略，企图玩“万能”的套路，最后发现市场占有率反倒出现了可怕的下降，1987年后，公司转变策略实施分众营销策略，根据不同年龄段的女性的皮肤特点和需求，去生产不同功效性的产品，消费者体验得到极大程度的提升。</p><p id="8d597926-c7a8-4816-bddd-8fd5e37392c6" class="">
+</p></div></p><p id="331e04b8-4f1a-4f70-b846-f3f1720a35fe" class=""><strong>步骤</strong>：<div class="indented"><p id="b53e473f-6dc9-45d0-99af-970f4b75eb0d" class="">市场细分是指根据顾客需求上的差异，把某个产品或服务的市场划分为一系列细分市场的过程。</p><p id="0f70d201-cfbb-4c62-9e72-811bcf58c7b3" class="">目标市场是指企业从细分后的市场中选择出来的决定进入的细分市场，也是对企业有利的市场组成部分。</p><p id="88ef83c5-2539-4b94-8825-cfd79d46c546" class="">而市场定位就是在营销过程中把其产品或服务确定在目标市场中的一定位 置上，即确定自己产品或服务在目标市场上的竞争地位，也叫“竞争性定位” 。</p><p id="32c4d7c0-b37b-4a82-a42e-0165bc174f84" class="">
+</p></div></p><p id="02c3c532-a6c9-4287-85a1-6dc3ed11a0c1" class=""><strong>市场细分</strong><div class="indented"><p id="72c5c1ff-ad5a-42de-9080-abe3a6529bea" class="">标准：人口变量，经营变量，采购方法，情况因素，个性特征。</p><p id="49af9581-b5ab-4e23-be48-b89ff2730b01" class="">方法：单一变量因素法，系列变量因素法</p><p id="b45c4f53-bce8-4d93-a6ac-4c3d00fe6388" class="">问题：要恰当选择市场细分标准，市场细分要适度，把握市场细分的动态性。</p></div></p><p id="48f544e4-2d1c-4893-abeb-fed28d515cf6" class=""><strong>目标市场</strong><div class="indented"><p id="a29d6dba-be92-49ac-8696-318e28f66e7f" class="">选择步骤：确定并界定有待细分的整体市场--&gt;确定细分标准--&gt;分割市场--&gt;评价细分市场--&gt;选择和确定目标市场--&gt;目标市场的重新界定</p><p id="95ba94d8-045c-4828-a252-d2469fadd6ab" class="">选择标准：存在潜在的需求且有规模和发展潜力，市场有购买力，竞争者尚未完全控制细分市场，符合企业目标和能力</p><p id="b8e5c3e8-4210-456f-bcfd-2bfa15496142" class="">目标市场的五种选择模式：(1) 产品—市场集中化，简单的方式是公司选择一个细分市场集中营销 (2) 产品专业化，集中生产一类产品，公司向各类顾客销售这类产品 (3) 市场专业化，专门为满足某个顾客群体的各种需要而服务 (4) 选择性专业化，选择若干个细分市场，其中每个细分市场在客观上都有吸引力，并且符合公司的目标和资源 (5) 完全涵盖，公司在某一领域想用各种产品满足各种顾客群体的需求，只有大公司才能采 用完全市场覆盖战略。</p></div></p><p id="1708fc0b-8aa4-4544-8e50-e56186b9c185" class=""><strong>市场定位</strong><div class="indented"><p id="291cc275-81bc-4663-949d-d4f73f368a48" class="">一个成功的市场定位战略，必须要确保四个关键因素的成立：竞争性，可信性，简明性，一致性，即市场定位的 4C 关键因子。</p><p id="ada26817-f29c-41bc-b723-568bd5b89308" class="">竞争性：市场定位的差别化优势对顾客有足够的吸引力，企业提供的产品或服务是基于自身强势资源的优化使用，顾客高度认可此产品或服务的价值，而 竞争对手囿于资源稀缺，难以对这种差别化优势进行复制或模仿。</p><p id="cf20162b-369f-4dd6-852e-dc7f6ca991b4" class="">可信性：确定的市场定位必须是可以令顾客信服的，所营造的产品印象不能与顾客长期以来基本的认知相悖，产品定位是可以创造和艺术化的，但决不能与 现实脱离得太远。</p><p id="b5899b3c-fdd8-48e7-a24c-189abba4e0a9" class="">简明性：市场定位传达的印象和信息都应是简单明了的，复杂或晦涩的定位容易产生歧义，也不易被顾客记住，任何时候，简明清晰的市场定位都是佳的 选择。</p><p id="d3cec98a-4ce5-454c-88c9-cefe5c873b64" class="">一致性：顾客每天面对的是大量的产品信息，所以成功的市场定位战略必须在时间上保持长期一致性，在今年宣传产品的高科技特性而下一年却转而强调服 务的出色，只会增加顾客的困惑，并直接导致其对产品的不信任.</p></div></p><p id="7ca0e2e4-f333-4f32-a0ae-2356ba7c71ef" class="">具体<strong>步骤</strong>：<div class="indented"><p id="4bfd7456-b7eb-4b53-b812-c34d97313baa" class="">1）调查研究影响定位的因素。适当的市场定位必须建立在市场营销调研的基础上，必须先了解有关影响市 场定位的各种要素。这主要包括：<div class="indented"><p id="678729ad-0532-4394-a927-8ca0f2aa2f2b" class=""> ①竞争者的定位状况。</p><p id="b61f11f7-8ad1-4716-826f-f552fd0456d0" class=""> ②目标顾客对产品的评价标准 </p><p id="012bf41a-1fe6-4d6d-88c5-35b8a569bd02" class="">③目标市场潜在的竞争优势。 </p></div></p><p id="7ebab777-4251-4a5b-85ef-9816723ad457" class="">2) 选择竞争优势和定位战略 企业通过与竞争者在产品、促销、成本、服务等方面的对比分析，了解自己的长处和短处，从而认定自己的竞争优势，进行恰当的市场定位。市场定位的方 法一般包括以下七个方面： <div class="indented"><p id="4f34acaa-bf0f-47b9-9302-c9c098e2eca8" class="">特色定位，即从企业和产品的特色上加以定位。</p><p id="de615133-17bf-4146-b887-93499a388d57" class="">功效定位，即从产品的功效上加以定位。</p><p id="145d52d6-d4ef-400d-a33d-e9a57a762678" class="">质量定位，即从产品的质量上加以定位。</p><p id="705a26e6-8dba-44b1-a3cc-8f38926584d3" class="">利益定位，即从顾客获得的主要利益上加以定位。</p><p id="bb546a6f-85f7-4f39-a893-0f7c2ba7f492" class="">使用者定位，即根据使用者的不同上加以定位 。</p><p id="0b596740-cb48-42b5-9dd3-b9689b22099b" class="">竞争定位，即根据企业所处的竞争位置和竞争态势加以定位。</p><p id="543cd8e5-d107-4a20-8c34-fb27cd1e336a" class="">价格定位，即从产品的价格上加以定位</p></div></p><p id="def3eb33-665d-4884-8e79-1bb6d036fafe" class=""> 3) 准确地传播企业的定位观念。企业在做出市场定位决策后，还必须大力开展广告宣传，把企业的定位观念准确地传播给潜在购买者。</p></div></p><hr id="c39e9748-e85e-40e6-a961-f7da5d5cff21"/><p id="14cd8ccf-9d18-4dce-8e36-81320600f684" class=""><strong>STP的局限性</strong><div class="indented"><p id="277bb08b-a6c8-4acf-be24-dd318d9c40d1" class="">首先，STP战略在终定位时<mark class="highlight-pink"><strong>忽略了对企业自身资源及能力状况的分析把握</strong></mark>，这往往会导致企业错误的定位或定位失败。<strong><mark class="highlight-pink">很多情况下即使目标市场很有潜力，企业如缺乏相应的人才、技术、资金、营销等资源与能力也很难在该目标市场上定位成功。</mark></strong>扬长避短，找出目标市场与本企业资源能力的佳结合点应是传统STP营销战略补充考虑的关键因素。</p><p id="4df3b512-8eea-4280-be12-0e857ee5d9fb" class="">其次，STP战略未能充分考虑目标市场容量和竞争对手状况。仅从顾客分析的角度来看，具有一定规模和发展潜力的市场可能早已被竞争对手看好，在这种情况下，缺乏对竞争对手的认知和分析，任何定位都风险极大，正所谓知己知彼方能百战不殆。</p><p id="d27eb6c6-5280-49f1-b9db-9353a4d1fbdd" class="">再次，STP战略对顾客的分析基本是一种静态分析。应该说顾客的需求是发展变化的，而且顾客往往也并不确切知道自己需要什么。传统STP战略静态分析在顾客需求及相关特征瞬息万变的今天，往往难以避免失败。</p><p id="c53b8840-6f76-4e45-8db2-8ecba15654f7" class="">最后，随着社会的发展和人民生活水平的提高，消费需求进入了个性化需求时代，传统的STP营销难以满足个性化要求。</p></div></p><figure id="5b905863-1c9a-484d-a9e2-9ac74d54d067" class="image"><a href="https://pic3.zhimg.com/80/v2-3cf65f4ab8e1c90670fb26d7c2a9e862_1440w.jpg"><img src="https://pic3.zhimg.com/80/v2-3cf65f4ab8e1c90670fb26d7c2a9e862_1440w.jpg"/></a></figure></div></article></body></html>

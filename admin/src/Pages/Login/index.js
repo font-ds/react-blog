@@ -41,7 +41,7 @@ function Login(props) {
                 setIsLoading(false)
                 if (res.data.data === '登录成功') {
                     localStorage.setItem('openId', res.data.openId)
-                    props.history.push('/index')
+                    props.history.push('/index/list')
                 } else {
                     message.error('用户名密码错误')
                 }
@@ -75,6 +75,7 @@ function Login(props) {
                     />
                     <br /><br />
                     <Button type="primary" size="large" block onClick={checkLogin} > Login in </Button>
+
                 </Card>
             </Spin>
         </div>

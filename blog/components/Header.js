@@ -33,7 +33,7 @@ const Header = () => {
             <Row type="flex" justify="center">
                 <Col xs={24} sm={24} md={10} lg={13} xl={10}>
                     <span className="header-logo">
-                        <Link href='/index'><a>啦啦啦</a></Link>
+                        <Link href='/'><a>啦啦啦</a></Link>
                     </span>
                     <span className="header-txt">前端小白进化记</span>
                 </Col>
@@ -51,7 +51,7 @@ const Header = () => {
 
                         {navArray.map(item => {
                             return (
-                                <Menu.Item key="home" style={{ fontSize: '17px', color: '#999' }}>
+                                <Menu.Item key={item.typeName} style={{ fontSize: '17px', color: '#999' }}>
                                     <Link href={{ pathname: '/list', query: { id: item.Id } }}><a>
                                         <IconFont style={{ fontSize: '18px', marginRight: '5px' }} type={item.icon} />
                                         {item.typeName}
