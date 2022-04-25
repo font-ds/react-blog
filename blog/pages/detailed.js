@@ -19,8 +19,27 @@ const Detailed = (props) => {
 
     const renderer = new marked.Renderer()
 
+    // marked.setOptions({
+    //     renderer: renderer,
+    //     gfm: true,
+    //     pedantic: false,
+    //     sanitize: false,
+    //     tables: true,
+    //     breaks: false,
+    //     smartLists: true,
+    //     highlight: function (code) {
+    //         return hljs.highlightAuto(code).value
+    //     }
+    // })
+
+    const renderMD = new marked.Renderer()
+    renderMD.image=function(href){
+        return `<a href=${href} target='_blank'><img style="width:100%" src=${href}></img></a>`
+    }
+    // console.log(renderMD)
+    
     marked.setOptions({
-        renderer: renderer,
+        renderer: renderMD,
         gfm: true,
         pedantic: false,
         sanitize: false,
@@ -30,9 +49,10 @@ const Detailed = (props) => {
         highlight: function (code) {
             return hljs.highlightAuto(code).value
         }
-    })
+    });
 
     let markdown = props.article_content
+    console.log('# 111 \n' + props.article_content)
     let title = props.title
     let time = props.addTime
 
@@ -52,7 +72,7 @@ const Detailed = (props) => {
                             <div className="nav-title">文章目录</div>
                             <MarkNav
                                 className="article-menu"
-                                source={markdown}
+                                source={'# text \n'+markdown}
                                 ordered={false}
                             />
                         </div>
@@ -181,7 +201,12 @@ const Detailed = (props) => {
                 }
                 
 
-                
+                .imgDiv{
+                    width:100%;
+                    display:flex;
+                    justify-self: center;
+                    color:red
+                }
 
             `}
             </style>

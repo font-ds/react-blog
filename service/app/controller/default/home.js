@@ -13,7 +13,8 @@ class HomeController extends Controller {
             'article.title as title,' +
             'article.introduce as introduce,' +
             'article.addTime as addTime,' +
-            '.type.typeName as typeName ' +
+            'type.typeName as typeName, ' +
+            'article.imagePath as imagePath ' +
             'FROM article LEFT JOIN type ON article.type_id = type.Id'
 
         const results = await this.app.mysql.query(sql)
@@ -49,7 +50,8 @@ class HomeController extends Controller {
             'article.title as title,' +
             'article.introduce as introduce,' +
             'article.addTime as addTime,' +
-            '.type.typeName as typeName ' +
+            'type.typeName as typeName, ' +
+            'article.imagePath as imagePath ' +
             'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
             'WHERE article.type_id=' + id
 

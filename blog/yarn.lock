@@ -923,7 +923,12 @@ core-js-pure@^3.16.0:
   resolved "https://registry.nlark.com/core-js-pure/download/core-js-pure-3.16.2.tgz#0ef4b79cabafb251ea86eb7d139b42bd98c533e8"
   integrity sha1-DvS3nKuvslHqhut9E5tCvZjFM+g=
 
-core-js@^2.4.0, core-js@^2.5.3:
+core-js@3:
+  version "3.21.1"
+  resolved "https://registry.npmmirror.com/core-js/-/core-js-3.21.1.tgz#f2e0ddc1fc43da6f904706e8e955bc19d06a0d94"
+  integrity sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==
+
+core-js@^2.4.0:
   version "2.6.12"
   resolved "https://registry.nlark.com/core-js/download/core-js-2.6.12.tgz?cache=0&sync_timestamp=1629206158334&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw=
@@ -2268,14 +2273,14 @@ make-dir@^3.0.2:
   dependencies:
     semver "^6.0.0"
 
-markdown-navbar@1.0.7:
-  version "1.0.7"
-  resolved "https://registry.nlark.com/markdown-navbar/download/markdown-navbar-1.0.7.tgz#da3dac0f0c83dd62858ee36f2ae35e2c8eca834e"
-  integrity sha1-2j2sDwyD3WKFjuNvKuNeLI7Kg04=
+markdown-navbar@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.npmmirror.com/markdown-navbar/-/markdown-navbar-1.4.3.tgz#f92e7ec5cf58b994e90188794497a1b597621b7d"
+  integrity sha512-esZQ9fHbjnOq/YnmKRrHTRhIO5+UmU3g5BS2tly7RwWrWCjOWv0Nq2A8r1GF9IBZKvrwM/rzaMgjjsQlkbh0tA==
   dependencies:
-    core-js "^2.5.3"
-    prop-types "^15.6.0"
-    react "^16.2.0"
+    core-js "3"
+    prop-types "^15.7.2"
+    react "^16.12.0"
 
 marked@^3.0.0:
   version "3.0.0"
@@ -2865,7 +2870,7 @@ progress@^2.0.0:
   resolved "https://registry.nlark.com/progress/download/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha1-foz42PW48jnBvGi+tOt4Vn1XLvg=
 
-prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.nlark.com/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -3329,10 +3334,10 @@ react@17.0.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-react@^16.2.0:
+react@^16.12.0:
   version "16.14.0"
-  resolved "https://registry.nlark.com/react/download/react-16.14.0.tgz?cache=0&sync_timestamp=1629476260610&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact%2Fdownload%2Freact-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
-  integrity sha1-lNd23dCqo32j7aj8W2sYpMmjEU0=
+  resolved "https://registry.npmmirror.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
+  integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

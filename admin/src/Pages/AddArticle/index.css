@@ -94,5 +94,15 @@
     margin-top:10px;
 }
 img{
-    width: 100%;
+    /* position: absolute;
+    width: 500px;
+    height: 300px; */
+    width: 1000px;
+    /* display: flex; */
+}
+
+.upload-pic{
+    margin-top: 20px;
+    font-size: 17px;
+    color: #888787;
 }

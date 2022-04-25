@@ -60,6 +60,7 @@ const MyList = (list) => {
                             dataSource={mylist}
                             renderItem={item => (
                                 <List.Item key={item.title}>
+                                    
                                     <div className="list-title"><Link href={{ pathname: '/detailed', query: { id: item.id } }}>{item.title}</Link></div>
                                     <div className="list-icon">
                                         <span> {item.addTime}</span>

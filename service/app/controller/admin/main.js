@@ -1,6 +1,8 @@
 'use strict'
 
 const Controller = require('egg').Controller
+let fs = require('fs')
+let mv = require('mv')
 
 class MainController extends Controller {
 
@@ -26,8 +28,48 @@ class MainController extends Controller {
     }
 
     async addArticle() {
-        let data = this.ctx.request.body
-        const result = await this.app.mysql.insert('article', data)
+
+        const formData = this.ctx.multipart()
+        
+        let article={}
+        let part
+        while ((part = await formData()) != null) {
+            if (part.length) {
+                // console.log(JSON.parse(formData))
+                if (part[0] == 'imagepath') {
+                    if(JSON.parse(part[1])===null) {
+    
+                    }else{
+                
+                        let filename = JSON.parse(part[1]).name
+                        let imgData = JSON.parse(part[1]).thumbUrl.replace(/^data:image\/\w+;base64,/, "");
+                        let buffer = Buffer.from(imgData, 'base64')
+                        fs.writeFile(filename, buffer, function (err) {
+                            if (err) {
+                                console.log(err)
+                                console.log('保存失败')
+    
+                            } else {
+                                console.log('保存成功')
+                                mv(`C:\\Users\\HUAWEI\\Desktop\\myblog\\service\\${filename}`,
+                                    `C:\\Users\\HUAWEI\\Desktop\\myblog\\service\\app\\public\\${filename}`,
+                                    function (err) {
+                                        console.log(err)
+                                    })
+                            }
+                        });
+                        article.imagepath = `http://127.0.0.1:7001/public/${filename}`
+                    }
+                    
+                } else {
+                    article[part[0]] = part[1]
+                }
+            } else {
+
+            }
+        }
+
+        const result = await this.app.mysql.insert('article', article)
         const insertSuccess = result.affectedRows === 1
         const insertId = result.insertId
 

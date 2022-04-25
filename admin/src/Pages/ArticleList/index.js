@@ -7,7 +7,6 @@ import httpUtil from '../../config/httpUtil'
 const { confirm } = Modal;
 
 function ArticleList(props) {
-
     const [list, setList] = useState([])
 
     const getList = () => {
@@ -16,6 +15,7 @@ function ArticleList(props) {
             url: httpUtil.getArticleList,
             withCredentials: true
         }).then(res => {
+            console.log(res)
             setList(res.data.data)
         })
     }
@@ -51,19 +51,22 @@ function ArticleList(props) {
             <List
                 header={
                     <Row className="list-div">
-                        <Col span={8}>
+                        <Col span={7}>
                             <b>标题</b>
+                        </Col>
+                        <Col span={5}>
+                            <b>封面图</b>
                         </Col>
                         <Col span={3}>
                             <b>编号</b>
                         </Col>
-                        <Col span={4}>
+                        <Col span={3}>
                             <b>类别</b>
                         </Col>
-                        <Col span={4}>
+                        <Col span={3}>
                             <b>发布时间</b>
                         </Col>
-                        <Col span={5}>
+                        <Col span={3}>
                             <b>操作</b>
                         </Col>
                     </Row>
@@ -75,20 +78,26 @@ function ArticleList(props) {
                     return (
                         <List.Item>
                             <Row className="list-div">
-                                <Col span={8}>
+                                <Col span={7}>
                                     {item.title}
+                                </Col>
+                                <Col span={5}>
+                                    <a href={item.imagePath}>
+                                    <img src={item.imagePath}></img>
+
+                                    </a>
                                 </Col>
                                 <Col span={3}>
                                     {item.id}
                                 </Col>
-                                <Col span={4}>
+                                <Col span={3}>
                                     {item.typeName}
                                 </Col>
-                                <Col span={4}>
+                                <Col span={3}>
                                     {item.addTime}
                                 </Col>
 
-                                <Col span={5}>
+                                <Col span={3}>
                                     <Button type="primary" onClick={() => updateArticle(item.id)} >修改</Button>&nbsp;
 
                                     <Button onClick={() => deleteArticle(item.id)}>删除 </Button>

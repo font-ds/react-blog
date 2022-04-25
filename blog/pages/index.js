@@ -72,12 +72,24 @@ const Home = (list) => {
               dataSource={mylist}
               renderItem={item => (
                 <List.Item key={item.title}>
-                  <div className="list-title"><Link href={{ pathname: '/detailed', query: { id: item.id } }}><a>{item.title}</a></Link></div>
-                  <div className="list-icon">
-                    <span> {item.addTime}</span>
-                    <span> {item.typeName}</span>
+                  <div className='list-item'>
+
+                 
+                    <div className='list-left'>
+                      <div className="list-title"><Link href={{ pathname: '/detailed', query: { id: item.id } }}><a>{item.title}</a></Link></div>
+                      <div className="list-icon">
+                        <span> {item.addTime}</span>
+                        <span> {item.typeName}</span>
+                      </div>
+                      <div className="list-context" dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}></div>
+                    </div>
+                    <div className='list-right'>
+                      {item.imagePath?<img className='list-image' src={item.imagePath}></img>:null}
+                    </div>
+                    
+                    
                   </div>
-                  <div className="list-context" dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}></div>
+                  
                 </List.Item>
               )}
             />
@@ -88,14 +100,16 @@ const Home = (list) => {
 
       <style jsx>
         {`
-               
-
-               .list-title{
+             
+            .list-title{
+              width:100%;
                 font-size:1.3rem;
                 padding: 0 0.5rem;
             }
+             
             .list-context{
-                color:#777;
+              width:100%;
+                 color:#777;
                 padding:.5rem;
             }
             .list-icon{
@@ -144,7 +158,22 @@ const Home = (list) => {
              margin:8px  auto ;
           
           }
-          
+          .list-item{
+            display:flex;
+            justify-content:space-between
+
+          } 
+          .list-image{
+            width:100%;
+            margin:-15% 0;
+
+          }
+          .list-left{
+            width:65%;
+          }
+          .list-right{
+            width:30%
+          }
 
                 `}
 
@@ -164,3 +193,8 @@ Home.getInitialProps = async () => {
 }
 
 export default Home
+
+// margin-top:-50px;
+// margin-bottom:-50px;
+
+

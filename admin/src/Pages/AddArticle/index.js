@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import marked from 'marked'
 import './index.css'
-import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd'
+import { Row, Col, Input, Select, Button, DatePicker, message,Upload } from 'antd'
+import {useHistory} from 'react-router-dom'
+import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios'
 import httpUtil from '../../config/httpUtil'
 const { Option } = Select;
 const { TextArea } = Input
 
 function AddArticle(props) {
-
+    let history=useHistory()
     const [articleId, setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
     const [articleTitle, setArticleTitle] = useState('')   //文章标题
     const [articleContent, setArticleContent] = useState('')  //markdown的编辑内容
@@ -20,6 +22,7 @@ function AddArticle(props) {
     const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
     const [selectedType, setSelectType] = useState(1) //选择的文章类别
     const [success, setSuccess] = useState(false)
+    const [picConteng,setPicContent] = useState(null)
 
     React.useEffect(() => {
         axios.get(httpUtil.getTypeInfo).then(res => {
@@ -34,8 +37,15 @@ function AddArticle(props) {
         }
     }, [])
 
+
+    const renderMD = new marked.Renderer()
+    renderMD.image=function(href){
+        return `<div className='imgDiv'><a href=${href} target='_blank'><img style="width:100%" src=${href}></img></a></div>`
+    }
+    // console.log(renderMD)
+    
     marked.setOptions({
-        renderer: marked.Renderer(),
+        renderer: renderMD,
         gfm: true,
         pedantic: false,
         sanitize: false,
@@ -79,42 +89,52 @@ function AddArticle(props) {
             message.error('发布日期不能为空')
             return false
         }
-        let dataProps = {}
-        dataProps.type_id = selectedType
-        dataProps.title = articleTitle
-        dataProps.article_content = articleContent
-        dataProps.introduce = introducemd
-        // let time = showDate.replace('-', '/')
-        dataProps.addTime = showDate
+
+
+        let formData = new FormData()
+        formData.append('type_id',selectedType )
+        formData.append('title', articleTitle)
+        formData.append('article_content', articleContent)
+        formData.append('introduce', introducemd)
+        formData.append('addTime', showDate)
+        if(picConteng === null){
+        formData.append('imagepath', null)
+        }
+        else{
+            formData.append('imagepath', JSON.stringify(picConteng))
+        }
+
 
         if (articleId === 0) {
             axios({
                 method: 'post',
                 url: httpUtil.addArticle,
-                data: dataProps,
+                data: formData,
                 withCredentials: true
             }).then(res => {
                 setArticleId(res.data.insertId)
                 if (res.data.isSuccess) {
+                    console.log(res)
                     message.success('文章添加成功')
+                    history.push('/index/list')
                 } else {
                     message.error('文章添加失败')
                 }
             })
         } else {
-            dataProps.id = articleId
-            axios({
-                method: 'post',
-                url: httpUtil.updateArticle,
-                data: dataProps,
-                withCredentials: true
-            }).then(res => {
-                if (res.data.isSuccess) {
-                    message.success('文章保存成功')
-                } else {
-                    message.error('文章保存失败')
-                }
-            })
+            // dataProps.id = articleId
+            // axios({
+            //     method: 'post',
+            //     url: httpUtil.updateArticle,
+            //     data: dataProps,
+            //     withCredentials: true
+            // }).then(res => {
+            //     if (res.data.isSuccess) {
+            //         message.success('文章保存成功')
+            //     } else {
+            //         message.error('文章保存失败')
+            //     }
+            // })
         }
     }
 
@@ -135,6 +155,10 @@ function AddArticle(props) {
                 setSuccess(true)
             }
         )
+    }
+
+    const upload=(value)=>{
+        setPicContent(value.file)
     }
 
     return (
@@ -203,7 +227,7 @@ function AddArticle(props) {
                             <br /><br />
                             <div className="introduce-html" dangerouslySetInnerHTML={{ __html: introducehtml }}></div>
                         </Col>
-                        <Col span={12}>
+                        <Col span={24}>
                             <div className="date-select">
                                 <DatePicker
                                     placeholder="发布日期"
@@ -211,6 +235,18 @@ function AddArticle(props) {
                                     onChange={(date, dateString) => { setShowDate(dateString); console.log(dateString, date); }}
                                 />
                             </div>
+                        </Col>
+                        <Col span={24}>
+                            <div className='upload-pic'>
+                                添加封面图片：<Upload
+                                    onChange={upload}
+                                    listType="picture"
+                                    maxCount={1}
+                                >
+                                    <Button icon={<UploadOutlined />}>Upload</Button>
+                                </Upload>
+                            </div>
+                      
                         </Col>
                     </Row>
 
